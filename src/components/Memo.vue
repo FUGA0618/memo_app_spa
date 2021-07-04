@@ -7,30 +7,24 @@
     </div>
   </div>
 
-  <div v-if="editFlg" class="container is-max-desktop has-background-light mt-4 p-4">
-    <textarea class="textarea mb-3" rows="10" v-model="editingMemo"></textarea>
-
-    <button @click="update" class="button is-success mr-3">
-      <span class="icon"><i class="fas fa-edit"></i></span>
-      <span>更新</span>
-    </button>
-
-    <button @click="deleteMemo" class="button is-danger">
-      <span class="icon"><i class="fas fa-trash-alt"></i></span>
-      <span>削除</span>
-    </button>
-  </div>
+  <MemoEditor v-if="editFlg"
+              :id="editingId"
+              :memo="editingMemo"
+              @update="update"
+              @delete-memo="deleteMemo"/>
 </template>
 
 <script>
 import MemoList from "./MemoList.vue"
 import NewMemo from "./NewMemo.vue"
+import MemoEditor from "./MemoEditor.vue"
 
 export default {
   name: 'Memo',
   components: {
     MemoList,
-    NewMemo
+    NewMemo,
+    MemoEditor
   },
   data () {
     return {
@@ -57,21 +51,20 @@ export default {
       localStorage.setItem(`${nextId}`, content)
       this.getAllMemos()
     },
-    update () {
-      localStorage.setItem(this.editingId, this.editingMemo)
+    update (...data) {
+      const [id, memo] = data
+      localStorage.setItem(id, memo)
+      this.editFlg = false
       this.editingId = null
       this.editingMemo = null
-      this.editFlg = false
       this.getAllMemos()
     },
-    deleteMemo () {
-      if (confirm('このメモを削除しますか？')) {
-        localStorage.removeItem(this.editingId)
-        this.editingId = null
-        this.editingMemo = null
-        this.editFlg = false
-        this.getAllMemos()
-      }
+    deleteMemo (id) {
+      localStorage.removeItem(id)
+      this.editFlg = false
+      this.editingId = null
+      this.editingMemo = null
+      this.getAllMemos()
     },
     activateEditMode (...args) {
       const [id, memo] = args
