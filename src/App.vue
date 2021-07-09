@@ -1,26 +1,22 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <section class="hero is-info">
+    <div class="hero-body">
+      <p class="title">Memo App - SPA</p>
+      <p class="subtitle">by Vue.js3 and Bulma</p>
+    </div>
+  </section>
+  <section class="section">
+    <Memo />
+  </section>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Memo from "./components/Memo.vue"
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Memo
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
